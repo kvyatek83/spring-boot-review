@@ -1,79 +1,79 @@
 openapi: '3.0.0'
 info:
   version: 1.0.0
-  title: Content List
+  title: Contact List
 servers:
   - url: http://localhost:8080
 paths:
-  /content/get-content-list:
+  /contact/get-contact-list:
     get:
-      summary: Get Content List
-      operationId: getContentList
+      summary: Get Contact List
+      operationId: getContactList
       tags:
-        - content
+        - contact
       responses:
         '200':
-          description: Content List
+          description: Contact List
           content:
             application/json:
               schema:
                 type: 'array'
                 items:
-                  $ref: '#/components/schemas/Content'
+                  $ref: '#/components/schemas/Contact'
 
-  /content/get-content/{contentId}:
+  /contact/get-contact/{contactId}:
     get:
-      summary: Get Content by id
-      operationId: getContent
+      summary: Get Contact by id
+      operationId: getContact
       tags:
-        - content
+        - contact
       parameters:
         - in: path
-          name: contentId
+          name: contactId
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Content
+          description: Contact
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Content'
+                $ref: '#/components/schemas/Contact'
 
-  /content/new-content:
+  /contact/new-contact:
     post:
-      summary: Create new Content
-      operationId: createContent
+      summary: Create new Contact
+      operationId: createContact
       requestBody:
-        description: The new Content
+        description: The new Contact
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Content'
+              $ref: '#/components/schemas/Contact'
       tags:
-        - content
+        - contact
       responses:
         '200':
           description: Created
 
-  /content/update-content/{contentId}:
+  /contact/update-contact/{contactId}:
     patch:
-      summary: Update Content
-      operationId: updateContent
+      summary: Update Contact
+      operationId: updateContact
       requestBody:
-        description: The Content
+        description: The Contact
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Content'
+              $ref: '#/components/schemas/Contact'
       tags:
-        - content
+        - contact
       parameters:
         - in: path
-          name: contentId
+          name: contactId
           required: true
           schema:
             type: string
@@ -81,15 +81,15 @@ paths:
         '200':
           description: Updated
 
-  /content/remove/{contentId}:
+  /contact/remove/{contactId}:
     delete:
-      summary: Remove Content
-      operationId: removeContent
+      summary: Remove Contact
+      operationId: removeContact
       tags:
-        - content
+        - contact
       parameters:
         - in: path
-          name: contentId
+          name: contactId
           required: true
           schema:
             type: string
@@ -99,7 +99,7 @@ paths:
 
 components:
   schemas:
-    Content:
+    Contact:
       required:
         - id
         - firstName

@@ -3,10 +3,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'org.openapi.generator' version "4.3.1"
 	id 'java'
+	id 'maven-publish'
 }
 
-group = 'com.nutty'
-version = '0.0.1-SNAPSHOT'
+group = 'com.nutty1'
+version = '0.4.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -29,17 +30,37 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+publishing {
+	publications {
+		mavenJava(MavenPublication){
+//			components.java
+			artifact bootJar
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
+}
+
 test {
 	useJUnitPlatform()
 }
+
+//sourceSets {
+//	main {
+//		java {
+//			srcDirs += ['build/generated/src/main/java']
+//		}
+//	}
+//}
 
 openApiGenerate {
 	generatorName = "spring"
 	inputSpec = "$projectDir/src/main/index.yaml"
 	outputDir = "$buildDir/generated"
-	apiPackage = "org.guardiandev.contentlist.api"
-	invokerPackage = "org.guardiandev.contentlist"
-	modelPackage = "org.guardiandev.contentlist.models"
+	apiPackage = "com.nutty.contentlist.api"
+	invokerPackage = "com.nutty.contentlist"
+	modelPackage = "com.nutty.contentlist.models"
 	configOptions = [
 			dateLibrary: "java8",
 			interfaceOnly: "true",
