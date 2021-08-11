@@ -1,0 +1,141 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Content List
+servers:
+  - url: http://localhost:8080
+paths:
+  /content/get-content-list:
+    get:
+      summary: Get Content List
+      operationId: getContentList
+      tags:
+        - content
+      responses:
+        '200':
+          description: Content List
+          content:
+            application/json:
+              schema:
+                type: 'array'
+                items:
+                  $ref: '#/components/schemas/Content'
+
+  /content/get-content/{contentId}:
+    get:
+      summary: Get Content by id
+      operationId: getContent
+      tags:
+        - content
+      parameters:
+        - in: path
+          name: contentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+
+  /content/new-content:
+    post:
+      summary: Create new Content
+      operationId: createContent
+      requestBody:
+        description: The new Content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Content'
+      tags:
+        - content
+      responses:
+        '200':
+          description: Created
+
+  /content/update-content/{contentId}:
+    patch:
+      summary: Update Content
+      operationId: updateContent
+      requestBody:
+        description: The Content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Content'
+      tags:
+        - content
+      parameters:
+        - in: path
+          name: contentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Updated
+
+  /content/remove/{contentId}:
+    delete:
+      summary: Remove Content
+      operationId: removeContent
+      tags:
+        - content
+      parameters:
+        - in: path
+          name: contentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Removed
+
+components:
+  schemas:
+    Content:
+      required:
+        - id
+        - firstName
+        - phone
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: number
+        address:
+          $ref: '#/components/schemas/Address'
+
+    Address:
+      required:
+        - city
+        - street
+        - number
+      properties:
+        city:
+          $ref: '#/components/schemas/City'
+        street:
+          type: string
+        number:
+          type: string
+        zipcode:
+          type: string
+
+    City:
+      type: string
+      enum:
+        - Haifa
+        - Akko
+        - Tel-Aviv
+        - Afula
+

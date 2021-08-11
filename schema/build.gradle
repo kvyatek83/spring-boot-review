@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.5.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.openapi.generator' version "4.3.1"
 	id 'java'
 }
 
@@ -19,12 +20,32 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation "io.swagger.parser.v3:swagger-parser:2.0.20"
+	implementation "org.openapitools:jackson-databind-nullable:0.2.1"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
 	useJUnitPlatform()
 }
+
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$projectDir/src/main/index.yaml"
+	outputDir = "$buildDir/generated"
+	apiPackage = "org.guardiandev.contentlist.api"
+	invokerPackage = "org.guardiandev.contentlist"
+	modelPackage = "org.guardiandev.contentlist.models"
+	configOptions = [
+			dateLibrary: "java8",
+			interfaceOnly: "true",
+	]
+}
+
+compileJava.dependsOn tasks.openApiGenerate
+sourceSets.main.java.srcDir "$buildDir/generated/src/main/java"
+sourceSets.main.resources.srcDir "$buildDir/generated/src/main/resources"
