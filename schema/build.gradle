@@ -6,8 +6,8 @@ plugins {
 	id 'maven-publish'
 }
 
-group = 'com.nutty1'
-version = '0.4.0'
+group = 'com.nutty'
+version = '0.6.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -20,23 +20,27 @@ repositories {
 	mavenCentral()
 }
 
+// needed??
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.boot:spring-boot-starter-parent:2.5.3"
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
 	implementation "io.swagger.parser.v3:swagger-parser:2.0.20"
 	implementation "org.openapitools:jackson-databind-nullable:0.2.1"
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 publishing {
 	publications {
 		mavenJava(MavenPublication){
 //			components.java
-			artifact bootJar
+			artifact jar
 		}
 	}
+
 	repositories {
 		mavenLocal()
 	}
@@ -46,25 +50,28 @@ test {
 	useJUnitPlatform()
 }
 
-//sourceSets {
-//	main {
-//		java {
-//			srcDirs += ['build/generated/src/main/java']
-//		}
-//	}
-//}
-
 openApiGenerate {
+	def namespace = "${group}.${rootProject.name}"
+
 	generatorName = "spring"
 	inputSpec = "$projectDir/src/main/index.yaml"
 	outputDir = "$buildDir/generated"
-	apiPackage = "com.nutty.contentlist.api"
-	invokerPackage = "com.nutty.contentlist"
-	modelPackage = "com.nutty.contentlist.models"
+	apiPackage = "${namespace}.api"
+	invokerPackage = "${namespace}"
+	modelPackage = "${namespace}.models"
 	configOptions = [
 			dateLibrary: "java8",
 			interfaceOnly: "true",
 	]
+}
+
+jar {
+	enabled = true
+	archiveClassifier = ''
+}
+
+bootJar{
+	enabled = false
 }
 
 compileJava.dependsOn tasks.openApiGenerate
