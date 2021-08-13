@@ -1,0 +1,9 @@
+server:
+  port: 8080
+env-var: Hello
+
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate: ERROR
+    org: INFO
