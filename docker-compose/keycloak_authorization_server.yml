@@ -4,8 +4,8 @@ services:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION:-latest}
     hostname: keycloak-server
     ports:
-      - "8081:8081"
+      - "8083:8083"
     environment:
       - "KEYCLOAK_USER=admin"
       - "KEYCLOAK_PASSWORD=admin"
-      - "JAVA_OPTS=-Djboss.http.port=8081"
+      - "JAVA_OPTS=-Djboss.http.port=8083"
