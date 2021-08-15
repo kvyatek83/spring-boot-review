@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.nutty'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -15,12 +15,17 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	compileOnly 'org.projectlombok:lombok'
+	implementation "com.nutty:schema:0.7.0"
+	implementation "org.openapitools:jackson-databind-nullable:0.2.1"
+	implementation "io.swagger.parser.v3:swagger-parser:2.0.20"
+	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -1,0 +1,3 @@
+management:
+  port:
+    12345
