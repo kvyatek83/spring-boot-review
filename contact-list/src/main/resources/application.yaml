@@ -1,7 +1,18 @@
 server:
   port: 8080
 
+aaa: "a"
+user:
+  role: "po"
+
+
 management:
+  endpoint:
+    health:
+      probes:
+        enabled: "true"
+  server:
+    port: 12345
   endpoints:
     web:
       exposure:

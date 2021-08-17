@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,12 @@ public class ContactController implements ContactApi {
     HashMap<String, Contact> contactList = new HashMap<>();
     private static final Logger logger = LogManager.getLogger(ContactController.class);
 
+    @Value("${aaa}")
+    private String aaa;
+
+    @Value("${user.role}")
+    private String b;
+
     @Override
     public ResponseEntity<Void> createContact(@Valid Contact contact) {
         logger();
@@ -34,7 +41,9 @@ public class ContactController implements ContactApi {
     }
 
     private void logger() {
-        logger.info("info createContact");
+        logger.info("info createContact {}", aaa);
+        logger.info(aaa);
+        logger.info(b);
         logger.error("error createContact");
         logger.debug("debug createContact");
         logger.warn("warn createContact");
