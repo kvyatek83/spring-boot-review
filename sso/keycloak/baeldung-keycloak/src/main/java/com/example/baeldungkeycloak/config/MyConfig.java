@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 class MyConfig extends KeycloakWebSecurityConfigurerAdapter {
 
+
     @Autowired
     public void configureGlobal(
             AuthenticationManagerBuilder auth) throws Exception {
