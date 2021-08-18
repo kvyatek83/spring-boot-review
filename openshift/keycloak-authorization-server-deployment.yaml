@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: keycloak-authorization-server
+  name: keycloak-authorization-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: keycloak-authorization-server
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: keycloak-authorization-server
+    spec:
+      containers:
+        - env:
+            - name: JAVA_OPTS
+              value: -Djboss.http.port=8083
+            - name: KEYCLOAK_PASSWORD
+              value: admin
+            - name: KEYCLOAK_USER
+              value: admin
+          image: quay.io/keycloak/keycloak:11.0.3
+          name: keycloak-authorization-server
+          ports:
+            - containerPort: 8083
+          resources: {}
+      hostname: keycloak-server
+      restartPolicy: Always
+status: {}
