@@ -1,0 +1,74 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: keycloak
+  namespace: openshift-config
+  annotations:
+    description: An example Keycloak server with HTTPS
+    iconClass: icon-sso
+    openshift.io/display-name: Keycloak
+    tags: keycloak
+    version: 9.0.4-SNAPSHOT
+objects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        description: The web server's https port.
+      labels:
+        application: baeldung-keycloak
+      name: baeldung-keycloak
+    spec:
+      ports:
+        - port: 8080
+          targetPort: 8080
+      selector:
+        application: baeldung-keycloak
+  - apiVersion: v1
+    id: baeldung-keycloak
+    kind: Route
+    metadata:
+      annotations:
+        description: Route for application's https service.
+      labels:
+        application: baeldung-keycloak
+      name: baeldung-keycloak
+    spec:
+      host: baeldung-keycloak
+      tls:
+        termination: passthrough
+      to:
+        name: baeldung-keycloak
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        application: baeldung-keycloak
+      name: baeldung-keycloak
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          application: baeldung-keycloak
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          labels:
+            application: baeldung-keycloak
+            deploymentConfig: baeldung-keycloak
+          name: baeldung-keycloak
+        spec:
+          containers:
+            - env:
+                - name: KEY_URL
+                  value: keycloak
+              image: baeldung/keyckloak:0.1.1
+              name: baeldung-keycloak
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              securityContext:
+                privileged: false
+      triggers:
+        - type: ConfigChange
